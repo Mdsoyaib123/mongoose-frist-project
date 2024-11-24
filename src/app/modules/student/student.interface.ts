@@ -1,5 +1,4 @@
-
-// 1. Create an interface 
+// 1. Create an interface
 
 export type Guardian = {
   fatherName: string;
@@ -20,6 +19,7 @@ export type LocalGuardian = {
   contactNo: string;
   address: string;
 };
+
 export type Student = {
   id: string;
   name: UserName;
@@ -37,7 +37,3 @@ export type Student = {
   profileImg?: string;
   isActive: 'active' | 'block';
 };
-
-
-
-
