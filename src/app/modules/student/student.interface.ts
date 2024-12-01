@@ -1,5 +1,7 @@
 // 1. Create an interface
 
+import { Types } from 'mongoose';
+
 export type Guardian = {
   fatherName: string;
   fatherContactNo: string;
@@ -22,6 +24,7 @@ export type LocalGuardian = {
 
 export type Student = {
   id: string;
+  user: Types.ObjectId;
   name: UserName;
   gender: 'Male' | 'Female';
   dateOfBrith?: string;
@@ -35,5 +38,4 @@ export type Student = {
   guardian: Guardian;
   localGuardian: LocalGuardian;
   profileImg?: string;
-  isActive: 'active' | 'block';
 };

@@ -33,6 +33,12 @@ const localGuardianSchema = new Schema<LocalGuardian>({
 
 const studentSchema = new Schema<Student>({
   id: { type: String, required: true, unique: true },
+  user: {
+    type: Schema.Types.ObjectId,
+    required: [true, 'user is required '],
+    unique:true,
+    ref:'userModel'
+  },
   name: {
     type: userNameSchema,
     maxlength: 20,
@@ -76,11 +82,6 @@ const studentSchema = new Schema<Student>({
     required: true,
   },
   profileImg: { type: String },
-  isActive: {
-    type: String,
-    enum: ['active', 'block'],
-    default: 'active',
-  },
 });
 
 // create a model
