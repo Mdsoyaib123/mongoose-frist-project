@@ -22,7 +22,7 @@ const getAllStudent = catchAsync(async (req, res, next) => {
   });
 });
 
-const getSingleStudentController: RequestHandler = async (req, res) => {
+const getSingleStudentController = catchAsync(async (req, res) => {
   const id = req.params.id;
   const result = await studentService.getSingleStudentFromDB(id);
 
@@ -33,7 +33,7 @@ const getSingleStudentController: RequestHandler = async (req, res) => {
     message: 'single student data',
     data: result,
   });
-};
+});
 
 export const studentController = {
   getAllStudent,
