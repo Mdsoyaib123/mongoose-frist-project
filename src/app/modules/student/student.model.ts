@@ -44,6 +44,7 @@ const studentSchema = new Schema<Student>({
     maxlength: 20,
     trim: true,
     required: true,
+    _id:false
   },
   gender: {
     type: String,
@@ -76,6 +77,7 @@ const studentSchema = new Schema<Student>({
   guardian: {
     type: guardianSchema,
     required: true,
+    _id:false
   },
   localGuardian: {
     type: localGuardianSchema,
