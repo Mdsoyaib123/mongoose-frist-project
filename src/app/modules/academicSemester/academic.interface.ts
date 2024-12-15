@@ -1,4 +1,3 @@
-import { Date } from 'mongoose';
 
 export type TMonths =
   | 'January'
@@ -20,7 +19,7 @@ export type TAcademicSemesterCode = 'o1' | '02' | '03';
 export type TAcademicSemester = {
   name: TAcademicSemesterName;
   code: TAcademicSemesterCode;
-  year: Date;
+  year: string;
   startMonth: TMonths;
   endMonth: TMonths;
 };
