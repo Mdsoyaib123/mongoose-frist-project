@@ -1,6 +1,6 @@
 import { Date } from 'mongoose';
 
-type TMonth =
+export type TMonths =
   | 'January'
   | 'February'
   | 'March'
@@ -18,6 +18,6 @@ export type TAcademicSemester = {
   name: 'Autumn' | 'Summer' | 'Fall';
   code: 'o1' | '02' | '03';
   year: Date;
-  startMonth: TMonth;
-  endMonth: TMonth;
+  startMonth: TMonths;
+  endMonth: TMonths;
 };
