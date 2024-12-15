@@ -32,19 +32,18 @@ const localGuardianSchema = new Schema<LocalGuardian>({
 });
 
 const studentSchema = new Schema<Student>({
-  id: { type: String, required: true, unique: true },
   user: {
     type: Schema.Types.ObjectId,
     required: [true, 'user is required '],
-    unique:true,
-    ref:'userModel'
+    unique: true,
+    ref: 'userModel',
   },
   name: {
     type: userNameSchema,
     maxlength: 20,
     trim: true,
     required: true,
-    _id:false
+    _id: false,
   },
   gender: {
     type: String,
@@ -55,7 +54,7 @@ const studentSchema = new Schema<Student>({
     trim: true,
     required: [true, 'Gender is also required'],
   },
-  dateOfBrith: { type: String },
+  dateOfBrith: { type: Date },
   email: {
     type: String,
     required: true,
@@ -77,7 +76,7 @@ const studentSchema = new Schema<Student>({
   guardian: {
     type: guardianSchema,
     required: true,
-    _id:false
+    _id: false,
   },
   localGuardian: {
     type: localGuardianSchema,

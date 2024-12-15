@@ -2,9 +2,9 @@ import { z } from 'zod';
 
 // UserName schema
 const userNameValidationWithZod = z.object({
-  fristName: z.string().nonempty("First Name is required"),
+  fristName: z.string().nonempty('First Name is required'),
   middleName: z.string().optional(),
-  lastName: z.string().nonempty("Last Name is required"),
+  lastName: z.string().nonempty('Last Name is required'),
 });
 
 // Guardian schema
@@ -26,25 +26,26 @@ const localGuardianValidationWithZod = z.object({
 });
 
 // Main Student schema
-const studentValidationwithZod = z.object({
-  id: z.string().nonempty(),
-  name: userNameValidationWithZod,
-  gender: z.enum(["Female", "Male"]),
-  dateOfBrith: z.string().optional(),
-  email: z
-    .string()
-    .email("Invalid email address")
-    .nonempty(),
-  contactNo: z.string().nonempty(),
-  emergenceContactNo: z.string().nonempty(),
-  bloodGroup: z.enum(["O+", "O-", "A+", "A-", "AB+", "AB-", "B+", "B-"]),
-  avatar: z.string().nonempty(),
-  presentAddress: z.string().nonempty(),
-  permanentAddress: z.string().nonempty(),
-  guardian: guardianValidationWithZod,
-  localGuardian: localGuardianValidationWithZod,
-  profileImg: z.string().optional(),
-  isActive: z.enum(["active", "block"]).default("active"),
+const createStudentValidationSchemaWithZod = z.object({
+  body: z.object({
+    password: z.string().max(20),
+    student: z.object({
+      name: userNameValidationWithZod,
+      gender: z.enum(['Female', 'Male']),
+      dateOfBrith: z.date().optional(),
+      email: z.string().email('Invalid email address').nonempty(),
+      contactNo: z.string().nonempty(),
+      emergenceContactNo: z.string().nonempty(),
+      bloodGroup: z.enum(['O+', 'O-', 'A+', 'A-', 'AB+', 'AB-', 'B+', 'B-']),
+      avatar: z.string().nonempty(),
+      presentAddress: z.string().nonempty(),
+      permanentAddress: z.string().nonempty(),
+      guardian: guardianValidationWithZod,
+      localGuardian: localGuardianValidationWithZod,
+      profileImg: z.string().optional(),
+    }),
+  }),
 });
-
-export default studentValidationwithZod;
+export const studentValidations = {
+  createStudentValidationSchemaWithZod,
+};

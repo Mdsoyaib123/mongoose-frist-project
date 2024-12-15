@@ -27,7 +27,7 @@ export type Student = {
   user: Types.ObjectId;
   name: UserName;
   gender: 'Male' | 'Female';
-  dateOfBrith?: string;
+  dateOfBrith?: Date;
   contactNo: string;
   emergenceContactNo: string;
   bloodGroup?: 'O+' | 'O-' | 'A+' | 'A-' | 'AB+' | 'AB-' | 'B+' | 'B-';
