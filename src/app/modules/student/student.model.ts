@@ -7,6 +7,7 @@ import {
   Student,
   UserName,
 } from './student.interface';
+import { AcademicSemesterModel } from '../academicSemester/academic.model';
 
 // create schema
 const userNameSchema = new Schema<UserName>({
@@ -32,6 +33,11 @@ const localGuardianSchema = new Schema<LocalGuardian>({
 });
 
 const studentSchema = new Schema<Student>({
+  id: {
+    type: String,
+    required: [true, 'ID is required'],
+    unique: true,
+  },
   user: {
     type: Schema.Types.ObjectId,
     required: [true, 'user is required '],
@@ -83,6 +89,14 @@ const studentSchema = new Schema<Student>({
     required: true,
   },
   profileImg: { type: String },
+  admissionSemester: {
+    type: Schema.Types.ObjectId,
+    ref: AcademicSemesterModel,
+  },
+  isDeleted: {
+    type: Boolean,
+    default:false,
+  },
 });
 
 // create a model
