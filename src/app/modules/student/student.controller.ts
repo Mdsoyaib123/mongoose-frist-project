@@ -1,6 +1,5 @@
 import { studentService } from './student.service';
 import sendResponse from '../../../utils/sendResponse';
-import HttpStatus from 'http-status';
 import catchAsync from '../../../utils/catchAsync';
 
 
@@ -9,7 +8,7 @@ const getAllStudent = catchAsync(async (req, res) => {
 
   // send Response
   sendResponse(res, {
-    statusCode: HttpStatus.OK,
+    statusCode: 200,
     success: true,
     message: 'all student data',
     data: result,
@@ -22,7 +21,7 @@ const getSingleStudentController = catchAsync(async (req, res) => {
 
   // send response
   sendResponse(res, {
-    statusCode: HttpStatus.OK,
+    statusCode: 200,
     success: true,
     message: 'single student data',
     data: result,
