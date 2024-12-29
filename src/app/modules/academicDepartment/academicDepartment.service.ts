@@ -25,7 +25,7 @@ const updateAcademicDepartment = async (
       name: payload.name,
     },
   };
-  const result = await academicDepartmentModel.updateOne(filter, update);
+  const result = await academicDepartmentModel.findOneAndUpdate(filter, update);
   return result;
 };
 
