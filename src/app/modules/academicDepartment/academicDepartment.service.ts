@@ -1,7 +1,7 @@
-import { TAcademicDepartment } from "./academicDepartment.interface";
-import { academicDepartmentModel } from "./academicDepartment.model";
+import { TAcademicDepartment } from './academicDepartment.interface';
+import { academicDepartmentModel } from './academicDepartment.model';
 
-const createAcademicDepartment= async (payload: TAcademicDepartment) => {
+const createAcademicDepartment = async (payload: TAcademicDepartment) => {
   const result = await academicDepartmentModel.create(payload);
   return result;
 };
@@ -15,7 +15,10 @@ const getSingleAcademicDepartment = async (id: string) => {
   return result;
 };
 
-const updateAcademicDepartment= async (id: string, payload:TAcademicDepartment) => {
+const updateAcademicDepartment = async (
+  id: string,
+  payload: TAcademicDepartment,
+) => {
   const filter = { _id: id };
   const update = {
     $set: {
@@ -27,8 +30,8 @@ const updateAcademicDepartment= async (id: string, payload:TAcademicDepartment) 
 };
 
 export const academicDepartmentService = {
-    createAcademicDepartment,
-    getAllAcademicDepartment,
-    getSingleAcademicDepartment,
-    updateAcademicDepartment
+  createAcademicDepartment,
+  getAllAcademicDepartment,
+  getSingleAcademicDepartment,
+  updateAcademicDepartment,
 };
