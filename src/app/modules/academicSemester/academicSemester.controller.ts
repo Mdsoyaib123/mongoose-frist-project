@@ -1,5 +1,5 @@
 import catchAsync from '../../../utils/catchAsync';
-import { academicSemesterServices } from './academic.service';
+import { academicSemesterServices } from './academicSemester.service';
 import sendResponse from '../../../utils/sendResponse';
 
 const createAcademicSemester = catchAsync(async (req, res) => {

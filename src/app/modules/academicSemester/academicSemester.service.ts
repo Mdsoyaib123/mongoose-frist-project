@@ -1,5 +1,5 @@
-import { TAcademicSemester } from './academic.interface';
-import { AcademicSemesterModel } from './academic.model';
+import { TAcademicSemester } from './academicSemester.interface';
+import { AcademicSemesterModel } from './academicSemester.model';
 import { academicSemesterNameCodeMapper } from './academicSemester.constant';
 
 const createAcademicSemesterIntoDB = async (payload: TAcademicSemester) => {

@@ -7,7 +7,7 @@ import {
   Student,
   UserName,
 } from './student.interface';
-import { AcademicSemesterModel } from '../academicSemester/academic.model';
+import { AcademicSemesterModel } from '../academicSemester/academicSemester.model';
 
 // create schema
 const userNameSchema = new Schema<UserName>({
@@ -95,7 +95,7 @@ const studentSchema = new Schema<Student>({
   },
   isDeleted: {
     type: Boolean,
-    default:false,
+    default: false,
   },
 });
 
