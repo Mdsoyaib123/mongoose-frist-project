@@ -26,25 +26,36 @@ const getSingleStudentFromDB = async (id: string) => {
     });
   return result;
 };
+
+
+
+
 const deleteStudent = async (id: string) => {
   const session = await mongoose.startSession();
 
   try {
-    await session.startTransaction();
+     session.startTransaction();
+
+     const update = {
+      $set:{
+        isDeleted: true
+      }
+     }
 
     const deletedUser = await userModel.findOneAndUpdate(
-      { id: id },
-      { isDeleted: true },
-      { new: true, session },
+      { id },
+      update,
+      {new:true, session },
     );
-    if (deletedUser) {
+    
+    if (!deletedUser) {
       throw new Error('Failed to delete user ');
     }
 
     const deletedStudent = await StudentModel.findOneAndUpdate(
-      { id: id },
-      { isDeleted: true },
-      { new: true, session },
+      { id },
+      update,
+      {new:true, session },
     );
     if (!deletedStudent) {
       throw new Error('Failed to delete student ');
@@ -53,8 +64,8 @@ const deleteStudent = async (id: string) => {
     await session.commitTransaction();
     await session.endSession();
 
-    return deleteStudent;
-    
+    return deletedStudent;
+
   } catch (error) {
     await session.abortTransaction();
     await session.endSession();
