@@ -2,7 +2,6 @@ import { studentService } from './student.service';
 import sendResponse from '../../../utils/sendResponse';
 import catchAsync from '../../../utils/catchAsync';
 
-
 const getAllStudent = catchAsync(async (req, res) => {
   const result = await studentService.getAllStudentFromDB();
 
@@ -27,8 +26,20 @@ const getSingleStudentController = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const deleteStudent = catchAsync(async (req,res)=>{
+  const id = req.params.id 
+  const result = await studentService.deleteStudent(id)
+
+  sendResponse(res,{
+    statusCode: 200,
+    success: true,
+    message: ' student data deleted',
+    data: result,
+  })
+})
 
 export const studentController = {
   getAllStudent,
   getSingleStudentController,
-};
+  deleteStudent
+}
