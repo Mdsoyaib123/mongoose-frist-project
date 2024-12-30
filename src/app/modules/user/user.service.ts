@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import config from '../../config';
 import { AcademicSemesterModel } from '../academicSemester/academicSemester.model';
 import { Student } from '../student/student.interface';
@@ -21,19 +22,39 @@ const createStudentIntoDB = async (password: string, payload: Student) => {
     payload.admissionSemester,
   );
 
-  // set id
-  userData.id = await generatedStudentId(admissionSemesterData);
+  const session = await mongoose.startSession();
 
-  const newUser = await userModel.create(userData);
+  try {
+    session.startTransaction();
 
-  //   create student
-  if (newUser._id) {
+    // set id
+    userData.id = await generatedStudentId(admissionSemesterData);
+
+    // create a user( transaction-1)
+    const newUser = await userModel.create([userData], { session });
+
+    //   create student
+    if (!newUser.length) {
+      throw new Error('Filed to create user ');
+    }
     // set id , _id as user
-    payload.id = newUser.id;
-    payload.user = newUser._id; //reference id
+    payload.id = newUser[0].id;
+    payload.user = newUser[0]._id; //reference id
 
-    const newStudent = await StudentModel.create(payload);
+    // create a student ( transaction-2)
+    const newStudent = await StudentModel.create([payload], { session });
+
+    if (!newStudent.length) {
+      throw new Error('Filed to create Student ');
+    }
+
+    await session.commitTransaction();
+    await session.endSession();
+
     return newStudent;
+  } catch (error) {
+    await session.abortTransaction();
+    await session.endSession();
   }
 };
 
