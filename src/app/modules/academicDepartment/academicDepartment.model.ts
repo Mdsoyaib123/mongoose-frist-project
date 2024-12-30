@@ -1,4 +1,4 @@
-import { model, Query, Schema } from 'mongoose';
+import mongoose, {  Schema } from 'mongoose';
 import { TAcademicDepartment } from './academicDepartment.interface';
 
 export const academicDepartmentSchema = new Schema<TAcademicDepartment>(
@@ -10,7 +10,7 @@ export const academicDepartmentSchema = new Schema<TAcademicDepartment>(
     },
     academicFaculty: {
       type: Schema.Types.ObjectId,
-      ref: 'academicFacultyModel',
+      ref: 'academicFaculty', // Match the registered model name
     },
   },
   {
@@ -37,7 +37,7 @@ academicDepartmentSchema.pre('findOneAndUpdate', async function (next) {
   next()
 });
 
-export const academicDepartmentModel = model<TAcademicDepartment>(
+export const academicDepartmentModel = mongoose.model<TAcademicDepartment>(
   'academicDepartment',
   academicDepartmentSchema,
 );

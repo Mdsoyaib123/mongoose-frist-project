@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import { TAcademicFaculty } from './academicFaculty.interface';
 
 export const academicFacultySchema = new Schema<TAcademicFaculty>(
@@ -6,7 +6,7 @@ export const academicFacultySchema = new Schema<TAcademicFaculty>(
     name: {
       type: String,
       required: true,
-      unique:true
+      unique: true,
     },
   },
   {
@@ -14,4 +14,7 @@ export const academicFacultySchema = new Schema<TAcademicFaculty>(
   },
 );
 
-export const academicFacultyModel = model<TAcademicFaculty>('academicFaculty',academicFacultySchema)
+export const academicFacultyModel = mongoose.model<TAcademicFaculty>(
+  'academicFaculty',
+  academicFacultySchema,
+);
