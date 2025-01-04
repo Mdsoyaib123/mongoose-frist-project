@@ -7,6 +7,7 @@ import { TErrorSources } from '../interface/error';
 import config from '../config';
 import handleZodError from '../errors/handleZodError';
 import handleValidationError from '../errors/handleValidationError';
+import handleCastError from '../errors/handleCastError';
 
 const globalErrorHan = (
   err: any,
@@ -32,20 +33,25 @@ const globalErrorHan = (
     message = simplifyError?.message;
     errorSources = simplifyError?.errorSources;
   } else if (err?.name === 'ValidationError') {
-
     const simplifyError = handleValidationError(err);
 
     statusCode = simplifyError?.statusCode;
     message = simplifyError?.message;
     errorSources = simplifyError?.errorSources;
-  }
+  } else if (err?.name === 'CastError') {
+    const simplifyError = handleCastError(err);
+
+    statusCode = simplifyError?.statusCode;
+    message = simplifyError?.message;
+    errorSources = simplifyError?.errorSources;
+  } 
 
   return res.status(statusCode).json({
     success: false,
     message,
     errorSources,
     stack: config.NODE_ENV === 'development' ? err?.stack : null,
-    // error: err,
+    error: err,
   });
 };
 
