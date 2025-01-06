@@ -3,8 +3,17 @@ import { StudentModel } from './student.model';
 import { userModel } from '../user/user.model';
 import { Student } from './student.interface';
 
-const getAllStudentFromDB = async () => {
-  const result = await StudentModel.find()
+const getAllStudentFromDB = async (query: Record<string, unknown>) => {
+  let searchTerm = '';
+  if (query?.searchTerm) {
+    searchTerm = query?.searchTerm as string;
+  }
+
+  const result = await StudentModel.find({
+    $or: ['name.fristName', 'email', 'age'].map((filed) => ({
+      [filed]: { $regex: searchTerm, $options: 'i' },
+    })),
+  })
     .populate('user')
     .populate('admissionSemester')
     .populate({
@@ -95,7 +104,7 @@ const deleteStudent = async (id: string) => {
   } catch (error) {
     await session.abortTransaction();
     await session.endSession();
-    throw new Error('Fail to delete student ');
+    throw new Error(error);
   }
 };
 

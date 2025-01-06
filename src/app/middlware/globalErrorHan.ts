@@ -16,8 +16,8 @@ const globalErrorHan = (
   next: NextFunction,
 ) => {
   // setting default values
-  let statusCode = err.statusCode || 500;
-  let message = err.message || 'Something went wrong ';
+  let statusCode =  500;
+  let message = 'Something went wrong ';
 
   let errorSources: TErrorSources[] = [
     {
@@ -44,7 +44,15 @@ const globalErrorHan = (
     statusCode = simplifyError?.statusCode;
     message = simplifyError?.message;
     errorSources = simplifyError?.errorSources;
-  } 
+  } else if (err instanceof Error) {
+    message = err.message;
+    errorSources = [
+      {
+        path: '',
+        message: err.message,
+      },
+    ];
+  }
 
   return res.status(statusCode).json({
     success: false,

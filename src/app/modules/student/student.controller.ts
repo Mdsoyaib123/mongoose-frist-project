@@ -3,7 +3,7 @@ import sendResponse from '../../../utils/sendResponse';
 import catchAsync from '../../../utils/catchAsync';
 
 const getAllStudent = catchAsync(async (req, res) => {
-  const result = await studentService.getAllStudentFromDB();
+  const result = await studentService.getAllStudentFromDB(req.query);
 
   // send Response
   sendResponse(res, {
