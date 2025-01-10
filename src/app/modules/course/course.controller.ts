@@ -28,7 +28,7 @@ const getAllCourse = catchAsync(async (req: Request, res: Response) => {
 });
 const getSingleCourse = catchAsync(async (req: Request, res: Response) => {
   const result = await courseService.getSingleCourse(
-    req.params.academicFacultyId,
+    req.params.id,
   );
 
   // send response

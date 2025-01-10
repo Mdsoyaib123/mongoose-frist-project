@@ -19,7 +19,8 @@ const getAllCourses = async (query:Record<string,unknown>) => {
   return result;
 };
 const getSingleCourse = async (id: string) => {
-  const result = await courseModel.findById(id);
+    console.log(id)
+  const result = await courseModel.findById(id).populate('preRequisiteCourses.course');
   return result;
 };
 const deleteCourse = async (id: string) => {
