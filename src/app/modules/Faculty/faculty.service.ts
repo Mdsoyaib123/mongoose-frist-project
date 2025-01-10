@@ -23,8 +23,9 @@ const getAllFacultiesFromDB = async (query: Record<string, unknown>) => {
 };
 
 const getSingleFacultyFromDB = async (id: string) => {
-  const result = await facultyModel.findById(id).populate('academicDepartment');
-
+  const result = await facultyModel
+    .findById(id)
+    .populate('academicDepartment');
   return result;
 };
 
@@ -74,7 +75,7 @@ const deleteFacultyFromDB = async (id: string) => {
     );
 
     if (!deletedUser) {
-      throw new Error( 'Failed to delete user');
+      throw new Error('Failed to delete user');
     }
 
     await session.commitTransaction();
