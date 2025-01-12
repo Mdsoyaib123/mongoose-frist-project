@@ -27,9 +27,7 @@ const getAllCourse = catchAsync(async (req: Request, res: Response) => {
   });
 });
 const getSingleCourse = catchAsync(async (req: Request, res: Response) => {
-  const result = await courseService.getSingleCourse(
-    req.params.id,
-  );
+  const result = await courseService.getSingleCourse(req.params.id);
 
   // send response
   sendResponse(res, {
@@ -52,26 +50,57 @@ const deleteCourse = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// update course
+const updateCourse = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const data = req.body;
+  const result = await courseService.updateCourse(id, data);
+  // send Response
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: '  course data is Updated ',
+    data: result,
+  });
+});
 
-
-
-// update course 
-const updateCourse = catchAsync(
+const assignFacultiesWithCourse = catchAsync(
   async (req: Request, res: Response) => {
-    const id = req.params.id;
-    const data = req.body;
-const result = await courseService.updateCourse(id,data)
-    // send Response
+    const { courseId } = req.params;
+    const { faculties } = req.body;
+    const result = await courseService.assignFacultiesWithCourse(
+      courseId,
+      faculties,
+    );
+
+    //   send response
     sendResponse(res, {
       statusCode: 200,
       success: true,
-      message: '  course data is Updated ',
+      message: ' assign faculty successfully ',
       data: result,
     });
   },
 );
 
+const removeFacultiesFromCourse = catchAsync(
+  async (req: Request, res: Response) => {
+    const { courseId } = req.params;
+    const { faculties } = req.body;
+    const result = await courseService.removeFacultiesWithCourse(
+      courseId,
+      faculties,
+    );
 
+    //   send response
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: ' Remove faculty from course  successfully ',
+      data: result,
+    });
+  },
+);
 
 export const courseController = {
   createCourse,
@@ -79,4 +108,6 @@ export const courseController = {
   getSingleCourse,
   updateCourse,
   deleteCourse,
+  assignFacultiesWithCourse,
+  removeFacultiesFromCourse,
 };
