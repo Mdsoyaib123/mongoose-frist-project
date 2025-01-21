@@ -19,10 +19,24 @@ const createSemesterRegistration = async (payload: TSemesterRegistration) => {
     throw new Error('semesterRegistration already registered ');
   }
 
-  const result = (await semesterRegistrationModel.create(payload)).populate('academicSemester');
+  const result = (await semesterRegistrationModel.create(payload)).populate(
+    'academicSemester',
+  );
   return result;
+};
+
+const getAllSemesterRegistration = async () => {
+  const result = await semesterRegistrationModel.find();
+  return result;
+};
+
+const singleSemesterRegistration = async (id: string) => {
+  const result = await semesterRegistrationModel.findById(id);
+  return result ;
 };
 
 export const semesterRegistrationService = {
   createSemesterRegistration,
+  getAllSemesterRegistration,
+  singleSemesterRegistration
 };
