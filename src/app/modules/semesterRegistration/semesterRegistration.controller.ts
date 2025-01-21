@@ -20,33 +20,55 @@ const createSemesterRegistration = catchAsync(
 
 const getAllSemesterRegistration = catchAsync(
   async (req: Request, res: Response) => {
-    const result =
-      await semesterRegistrationService.getAllSemesterRegistration(req.query);
+    const result = await semesterRegistrationService.getAllSemesterRegistration(
+      req.query,
+    );
 
-    //   send response 
+    //   send response
     sendResponse(res, {
       statusCode: 200,
       success: true,
       message: ' get all semesterRegistration data  ',
       data: result,
     });
-    
   },
 );
-const SingleSemesterRegistration =catchAsync(async (req:Request,res:Response)=>{
-const id = req.params.id
-const result = await semesterRegistrationService.singleSemesterRegistration(id)
+const SingleSemesterRegistration = catchAsync(
+  async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const result =
+      await semesterRegistrationService.singleSemesterRegistration(id);
 
-  //   send response 
-  sendResponse(res, {
-    statusCode: 200,
-    success: true,
-    message: ' get single semesterRegistration data  ',
-    data: result,
-  });
-})
+    //   send response
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: ' get single semesterRegistration data  ',
+      data: result,
+    });
+  },
+);
+const updateSemesterRegistration = catchAsync(
+  async (req: Request, res: Response) => {
+
+    const result = await semesterRegistrationService.updateSemesterRegistration(
+      req.params.id,
+      req.body
+    );
+
+    //   send response
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: ' update semesterRegistration data  ',
+      data: result,
+    });
+  },
+);
+
 export const semesterRegistrationController = {
   createSemesterRegistration,
   getAllSemesterRegistration,
-  SingleSemesterRegistration
+  SingleSemesterRegistration,
+  updateSemesterRegistration
 };

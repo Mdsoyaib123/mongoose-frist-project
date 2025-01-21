@@ -14,5 +14,5 @@ router.post(
 );
 router.get('/',semesterRegistrationController.getAllSemesterRegistration)
 router.get('/:id',semesterRegistrationController.SingleSemesterRegistration)
-
+router.patch('/:id',semesterRegistrationController.updateSemesterRegistration)
 export const semesterRegistrationRoutes = router;
