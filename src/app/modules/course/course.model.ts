@@ -44,6 +44,12 @@ const courseSchema = new Schema<TCourse>({
 
 export const courseModel = model<TCourse>('course', courseSchema);
 
+
+
+
+
+
+
 // create courseFaculty schema
 const courseFacultySchema = new Schema<TCourseFaculty>({
   course: {
