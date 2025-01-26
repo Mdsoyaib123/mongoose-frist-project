@@ -75,7 +75,7 @@ const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
     _id: academicDepartment,
     academicFaculty,
   });
-
+ 
   if (!isDepartmentBelongToFaculty) {
     throw new Error(
       `This ${isAcademicDepartmentExits.name} is not  belong to this ${isAcademicFacultyExits.name}`,
@@ -100,7 +100,7 @@ const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
     .find({
       semesterRegistration,
       faculty,
-      days: { $in: days },
+      days: { $in: days  },
     })
     .select('days startTime endTime');
 
@@ -110,12 +110,12 @@ const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
     endTime,
   };
 
-  //   if (hasTimeConflict(assignedSchedules, newSchedule)) {
-  //     throw new AppError(
-  //       httpStatus.CONFLICT,
-  //       `This faculty is not available at that time ! Choose other time or day`,
-  //     );
-  //   }
+    // if (hasTimeConflict(assignedSchedules, newSchedule)) {
+    //   throw new AppError(
+    //     httpStatus.CONFLICT,
+    //     `This faculty is not available at that time ! Choose other time or day`,
+    //   );
+    // }
 
   const result = await offeredCourseModel.create({
     ...payload,
@@ -123,6 +123,9 @@ const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
   });
   return result;
 };
+
+
+
 
 const getAllOfferedCoursesFromDB = async (query: Record<string, unknown>) => {
   const offeredCourseQuery = new QueryBuilder(offeredCourseModel.find(), query)
