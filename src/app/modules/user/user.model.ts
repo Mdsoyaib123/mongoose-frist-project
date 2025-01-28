@@ -1,14 +1,16 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 import { model, Schema } from 'mongoose';
-import { TUser } from './user.interface';
+import { TUser, UserModel } from './user.interface';
 import bcrypt from 'bcrypt';
 import config from '../../config';
-export const userSchema = new Schema<TUser>(
+import { userStatus } from './user.constant';
+
+export const userSchema = new Schema<TUser, UserModel>(
   {
     id: {
       type: String,
       required: true,
-      unique:true
+      unique: true,
     },
     password: {
       type: String,
@@ -26,10 +28,8 @@ export const userSchema = new Schema<TUser>(
     },
     status: {
       type: String,
-      enum: {
-        values: ['in-progress', 'blocked'],
-        default: 'in-progress',
-      },
+      enum: userStatus,
+      default: 'in-progress',
     },
     isDeleted: {
       type: Boolean,
@@ -55,4 +55,16 @@ userSchema.post('save', function (doc, next) {
   next();
 });
 
-export const userModel = model<TUser>('User', userSchema);
+userSchema.statics.isUserExitByCustomId = async function (id: string) {
+  return await userModel.findOne({ id });
+};
+userSchema.statics.isUserDeleted = async function (id: string) {
+  return await userModel.findOne({ id });
+};
+userSchema.statics.isStatus = async function (id: string) {
+  return await userModel.findOne({ id });
+};
+
+
+
+export const userModel = model<TUser, UserModel>('User', userSchema);

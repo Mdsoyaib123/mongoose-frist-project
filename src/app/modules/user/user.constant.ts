@@ -1,0 +1,1 @@
+export const userStatus = ['in-progress', 'blocked'],

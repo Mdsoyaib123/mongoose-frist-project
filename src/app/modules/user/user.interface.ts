@@ -1,11 +1,22 @@
-export type TUser = {
+/* eslint-disable no-unused-vars */
+import { Model } from 'mongoose';
+
+export interface TUser {
   id: string;
   password: string;
   needsPasswordChange: boolean;
   role: 'student' | 'admin' | 'faculty';
   status: 'in-progress' | 'blocked';
   isDeleted: boolean;
-};
+}
+
+export interface UserModel extends Model<TUser> {
+  // myStaticMethod(): number;
+  isUserExitByCustomId(id: string): Promise<TUser>;
+  isUserDeleted(id:string): Promise<TUser>;
+  isStatus(id:string) :Promise<TUser>
+ 
+}
 
 // export type NewUser = {
 //   id:string
