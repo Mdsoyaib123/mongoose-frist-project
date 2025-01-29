@@ -5,7 +5,6 @@ import config from '../config';
 
 const auth = () => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    // validation
 
     const token = req.headers.authorization;
     if (!token) {
@@ -23,10 +22,9 @@ const auth = () => {
         const { id, role } = decode;
 
         req.user = decode as JwtPayload;
+        next();
       },
     );
-
-    next();
   });
 };
 
