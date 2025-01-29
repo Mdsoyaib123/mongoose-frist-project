@@ -13,9 +13,9 @@ export interface TUser {
 export interface UserModel extends Model<TUser> {
   // myStaticMethod(): number;
   isUserExitByCustomId(id: string): Promise<TUser>;
-  isUserDeleted(id:string): Promise<TUser>;
-  isStatus(id:string) :Promise<TUser>
- 
+  isUserDeleted(id: string): Promise<TUser>;
+  isStatus(id: string): Promise<TUser>;
+  passwordMatch(plainTextPass: string, hashedPass: string): Promise<boolean>;
 }
 
 // export type NewUser = {

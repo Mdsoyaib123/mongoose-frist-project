@@ -65,6 +65,8 @@ userSchema.statics.isStatus = async function (id: string) {
   return await userModel.findOne({ id });
 };
 
-
+userSchema.statics.passwordMatch = async function (plainTextPass, hashedPass) {
+  return await bcrypt.compare(plainTextPass, hashedPass);
+};
 
 export const userModel = model<TUser, UserModel>('User', userSchema);
