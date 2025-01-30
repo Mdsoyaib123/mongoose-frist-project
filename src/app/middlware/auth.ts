@@ -5,7 +5,6 @@ import config from '../config';
 import { TUserRole } from '../modules/user/user.interface';
 
 const auth = (...requiredRole: TUserRole[]) => {
-  console.log(requiredRole);
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization;
     if (!token) {
@@ -20,7 +19,12 @@ const auth = (...requiredRole: TUserRole[]) => {
         if (err) {
           throw new Error('You are not Authorized !!!!');
         }
-        // const { id, role } = decode;
+
+        // check role base activity 
+        const role = (decode as JwtPayload)?.role;
+        if (requiredRole && !requiredRole.includes(role)) {
+          throw new Error('You are not Authorized !!!!');
+        }
 
         req.user = decode as JwtPayload;
         next();
