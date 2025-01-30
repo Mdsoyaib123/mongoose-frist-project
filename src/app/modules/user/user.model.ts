@@ -15,11 +15,14 @@ export const userSchema = new Schema<TUser, UserModel>(
     password: {
       type: String,
       required: true,
-      select:0
+      select: 0,
     },
     needsPasswordChange: {
       type: Boolean,
       default: true,
+    },
+    passwordChangeAt: {
+      type: Date,
     },
     role: {
       type: String,
@@ -57,7 +60,7 @@ userSchema.post('save', function (doc, next) {
 });
 
 userSchema.statics.isUserExitByCustomId = async function (id: string) {
-  return await userModel.findOne({ id });
+  return await userModel.findOne({ id }).select('+password');
 };
 userSchema.statics.isUserDeleted = async function (id: string) {
   return await userModel.findOne({ id });
@@ -68,6 +71,15 @@ userSchema.statics.isStatus = async function (id: string) {
 
 userSchema.statics.passwordMatch = async function (plainTextPass, hashedPass) {
   return await bcrypt.compare(plainTextPass, hashedPass);
+};
+
+userSchema.statics.isJwtIssuedBeforePasswordChange = function (
+  passwordChangeTimestamp: Date,
+  jwtIssuedTimestamp: number,
+) {
+  const passwordChangeTime = new Date(passwordChangeTimestamp).getTime() / 1000;
+  // console.log(passwordChangeTime , jwtIssuedTimestamp)
+  return passwordChangeTime > jwtIssuedTimestamp;
 };
 
 export const userModel = model<TUser, UserModel>('User', userSchema);

@@ -4,6 +4,7 @@ import { FacultyControllers } from './faculty.controller';
 import { updateFacultyValidationSchema } from './faculty.validation';
 import validateRequest from '../../middlware/validateRequest';
 import auth from '../../middlware/auth';
+import { userRole } from '../user/user.constant';
 
 const router = express.Router();
 
@@ -17,6 +18,6 @@ router.patch(
 
 router.delete('/:id', FacultyControllers.deleteFaculty);
 
-router.get('/',auth(), FacultyControllers.getAllFaculties);
+router.get('/',auth(userRole.admin,userRole.faculty), FacultyControllers.getAllFaculties);
 
 export const FacultyRoutes = router;

@@ -6,6 +6,7 @@ export interface TUser {
   id: string;
   password: string;
   needsPasswordChange: boolean;
+  passwordChangeAt?: Date;
   role: 'student' | 'admin' | 'faculty';
   status: 'in-progress' | 'blocked';
   isDeleted: boolean;
@@ -17,6 +18,10 @@ export interface UserModel extends Model<TUser> {
   isUserDeleted(id: string): Promise<TUser>;
   isStatus(id: string): Promise<TUser>;
   passwordMatch(plainTextPass: string, hashedPass: string): Promise<boolean>;
+  isJwtIssuedBeforePasswordChange(
+    passwordChangeTimestamp: Date,
+    jwtIssuedTimestamp: number,
+  ): boolean;
 }
 
 export type TUserRole = keyof typeof userRole;
