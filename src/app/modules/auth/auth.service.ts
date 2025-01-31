@@ -40,8 +40,13 @@ const loginUser = async (payload: TLoginUser) => {
     expiresIn: '10d',
   });
 
+  const refreshToken = jwt.sign(jwtData, config?.jwt_refresh_token as string, {
+    expiresIn: '30d',
+  });
+
   return {
     accessToken,
+    refreshToken,
     needsPasswordChange: userData?.needsPasswordChange,
   };
 };
@@ -90,13 +95,70 @@ const changePassword = async (
       id: user?.id,
       role: user?.role,
     },
-    { password: newHashedPassword, needsPasswordChange: false ,passwordChangeAt:new Date()},
+    {
+      password: newHashedPassword,
+      needsPasswordChange: false,
+      passwordChangeAt: new Date(),
+    },
   );
 
   return result;
 };
 
+
+const refreshToken = async (token: string) => {
+
+  // check if the token is valid
+  const decoded = jwt.verify(
+    token,
+    config.jwt_refresh_token as string,
+  ) as JwtPayload;
+
+  const { id,iat } = decoded;
+
+  const userData = await userModel.isUserExitByCustomId(id);
+  // check user already exit using statics method
+  if (!userData) {
+    throw new Error('The user is not found');
+  }
+
+  // check if the user is already deleted using statics method
+  if ((await userModel.isUserDeleted(id)).isDeleted) {
+    throw new Error('The user is deleted ');
+  }
+
+  // check if the user is blocked
+  const Status = await userModel.isUserExitByCustomId(id);
+  if (Status?.status === 'blocked') {
+    throw new Error('The user is blocked ');
+  }
+
+  if (
+    userData.passwordChangeAt &&
+    userModel.isJwtIssuedBeforePasswordChange(
+      userData.passwordChangeAt,
+      iat as number,
+    )
+  ) {
+    throw new Error('You are not Authorized !!!!');
+  }
+  const jwtData = {
+    id: userData.id,
+    role: userData.role,
+  };
+
+  const accessToken = jwt.sign(jwtData, config?.jwt_access_token as string, {
+    expiresIn: '10d',
+  });
+
+  return { 
+    accessToken
+  }
+
+};
+
 export const authService = {
   loginUser,
   changePassword,
+  refreshToken,
 };
